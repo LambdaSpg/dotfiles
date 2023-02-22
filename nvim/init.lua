@@ -51,6 +51,7 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  use 'morhetz/gruvbox'
   -- Git related plugins
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
@@ -66,8 +67,33 @@ require('packer').startup(function(use)
   use 'preservim/nerdtree' -- nerdtree
   use 'jiangmiao/auto-pairs' -- automatically close parenthesies
   use 'mbbill/undotree' -- undo
+  use 'github/copilot.vim' -- copilot
+  use 'mhartington/formatter.nvim' -- formatter
+  
 
-  -- Fuzzy Finder (files, lsp, etc)
+  --- ChatGPT
+  use 'jackMort/ChatGPT.nvim' -- ChatGPT
+  use 'MunifTanjim/nui.nvim'
+  use 'nvim-lua/plenary.nvim'
+
+ require("chatgpt").setup({
+   -- optional configuration
+ })
+
+  --- Diagnostic
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+    require("trouble").setup {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+    end
+  }
+
+   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
@@ -174,6 +200,10 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- keymap for undotree
 vim.api.nvim_set_keymap('n', 'F5', ':UndotreeToggle<CR>',{noremap = true})
 
+
+-- keymap for gpt
+vim.api.nvim_set_keymap('n', '<leader>cg', ':ChatGPT<CR>', {})
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -252,6 +282,11 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sl', require('telescope.builtin').lsp_references, { desc = '[S]earch [D]iagnostics' })
 
+-- config trouble
+
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -377,7 +412,7 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
+  tsserver = {},
 
   sumneko_lua = {
     Lua = {
@@ -413,6 +448,9 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+
+--- tsserver
 
 -- Turn on lsp status information
 require('fidget').setup()
