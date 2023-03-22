@@ -69,7 +69,7 @@ require('packer').startup(function(use)
   use 'mbbill/undotree' -- undo
   use 'github/copilot.vim' -- copilot
   use 'mhartington/formatter.nvim' -- formatter
-  
+  use 'othree/html5.vim'
 
   --- ChatGPT
   use 'jackMort/ChatGPT.nvim' -- ChatGPT
