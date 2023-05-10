@@ -64,7 +64,12 @@ require('packer').startup(function(use)
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
   --- [[Custom]]
-  use 'preservim/nerdtree' -- nerdtree
+  use{
+    'preservim/nerdtree',
+    requires = {
+      'ryanoasis/vim-devicons'
+    }
+  }-- nerdtree
   use 'jiangmiao/auto-pairs' -- automatically close parenthesies
   use 'mbbill/undotree' -- undo
   use 'github/copilot.vim' -- copilot
@@ -76,9 +81,11 @@ require('packer').startup(function(use)
   use 'MunifTanjim/nui.nvim'
   use 'nvim-lua/plenary.nvim'
 
- require("chatgpt").setup({
+  use 'rust-lang/rust.vim' -- rust
+
+-- require("chatgpt").setup({
    -- optional configuration
- })
+-- })
 
   --- Diagnostic
   use {
